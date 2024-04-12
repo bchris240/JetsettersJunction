@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
 
 // Importing schema
-const typeDefs = require('./graphql/schema');
+const typeDefs = require('server\graphql\schema.js');
 
 dotenv.config();
 
