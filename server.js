@@ -1,7 +1,7 @@
 // server.js
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
-const typeDefs = require('server/graphql/schema.js');
+const typeDefs = require('./graphql/schema.js');
 const resolvers = require('./graphql/resolvers');
 const connectDB = require('./config/db');
 const { verifyToken } = require('./helpers/auth');
