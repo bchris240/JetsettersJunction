@@ -11,6 +11,10 @@ dotenv.config();
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+}).then(() => {
+  console.log('MongoDB connected');
+}).catch((error) => {
+  console.error('MongoDB connection error:', error);
 });
 
 // Define User model
@@ -55,7 +59,7 @@ const resolvers = {
       if (!user || !(await bcrypt.compare(password, user.password))) {
         throw new Error('Invalid username or password');
       }
-      return jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+      return jwt.sign({ userId: user._id }, process.env.SECRET_KEY);
     },
   },
 };
@@ -69,17 +73,11 @@ const apolloServer = new ApolloServer({
 // Express App
 const app = express();
 
-async function startServer() {
-  await apolloServer.start();
+// Apply Apollo middleware after server has started
+apolloServer.applyMiddleware({ app });
 
-  // Apply Apollo middleware after server has started
-  apolloServer.applyMiddleware({ app });
-
-  // Start server
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
-}
-
-startServer();
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
