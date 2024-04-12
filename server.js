@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
-const server = require('./server/server.js');
 
 dotenv.config();
 
@@ -62,7 +61,7 @@ const resolvers = {
 };
 
 // Apollo Server
-const server = new ApolloServer({
+const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
 });
@@ -71,10 +70,10 @@ const server = new ApolloServer({
 const app = express();
 
 async function startServer() {
-  await server.start();
+  await apolloServer.start();
 
   // Apply Apollo middleware after server has started
-  server.applyMiddleware({ app });
+  apolloServer.applyMiddleware({ app });
 
   // Start server
   const PORT = process.env.PORT || 5000;
