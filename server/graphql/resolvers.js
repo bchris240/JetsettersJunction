@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { AuthenticationError } = require('apollo-server-express');
-const { SECRET_KEY } = require('../config');
+const config = require('../config');
 
 const resolvers = {
   Query: {
